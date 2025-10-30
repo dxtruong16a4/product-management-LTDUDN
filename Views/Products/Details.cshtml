@@ -1,0 +1,29 @@
+@model ProductManagement.DTOs.ProductDto
+
+@{
+    ViewData["Title"] = "Thông tin sản phẩm";
+}
+
+<div class="container mt-4">
+    <h1>Thông tin sản phẩm</h1>
+    <hr />
+    <div>
+        <dl class="row">
+            <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Name)</dt>
+            <dd class="col-sm-9">@Html.DisplayFor(model => model.Name)</dd>
+            
+            <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Price)</dt>
+            <dd class="col-sm-9">$@Html.DisplayFor(model => model.Price)</dd>
+            
+            <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Stock)</dt>
+            <dd class="col-sm-9">@Html.DisplayFor(model => model.Stock)</dd>
+            
+            <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Description)</dt>
+            <dd class="col-sm-9">@Html.DisplayFor(model => model.Description)</dd>
+        </dl>
+    </div>
+    <div>
+        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Sửa</a>
+        <a asp-action="Index" class="btn btn-secondary">Quay lại</a>
+    </div>
+</div>

@@ -1,0 +1,103 @@
+@model ProductManagement.DTOs.PagedResult<ProductManagement.DTOs.ProductDto>
+
+@{
+    ViewData["Title"] = "Danh sách sản phẩm";
+}
+
+<div class="container mt-4">
+    <h1>Danh sách sản phẩm</h1>
+    
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <p>
+                <a asp-action="Create" class="btn btn-primary">
+                    <i class="bi bi-plus-circle"></i> Thêm sản phẩm mới
+                </a>
+            </p>
+        </div>
+        <div class="col-md-6">
+            <form asp-action="Index" method="get" class="d-flex">
+                <input type="text" name="searchTerm" value="@ViewData["CurrentFilter"]" 
+                       class="form-control me-2" placeholder="Tìm kiếm theo tên hoặc mô tả..." />
+                <button type="submit" class="btn btn-outline-secondary">Tìm kiếm</button>
+                <a asp-action="Index" class="btn btn-outline-danger ms-2">Xoá bộ lọc</a>
+            </form>
+        </div>
+    </div>
+    
+    @if (Model.TotalCount == 0)
+    {
+        <div class="alert alert-info" role="alert">
+            Không có sản phẩm nào. @(string.IsNullOrEmpty(ViewData["CurrentFilter"]?.ToString()) ? "" : "Thử tìm kiếm với từ khóa khác.")
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-info" role="alert">
+            Hiển thị @Model.Items.Count() của @Model.TotalCount sản phẩm (Trang @Model.CurrentPage của @Model.TotalPages)
+        </div>
+        
+        <table class="table table-striped table-hover">
+            <thead class="table-dark">
+                <tr>
+                    <th>@Html.DisplayNameFor(model => model.Items.First().Name)</th>
+                    <th>@Html.DisplayNameFor(model => model.Items.First().Price)</th>
+                    <th>@Html.DisplayNameFor(model => model.Items.First().Stock)</th>
+                    <th>@Html.DisplayNameFor(model => model.Items.First().Description)</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Items)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(modelItem => item.Name)</td>
+                        <td>$@Html.DisplayFor(modelItem => item.Price)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Stock)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Description)</td>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-warning">Sửa</a>
+                            <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-info">Chi tiết</a>
+                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-danger">Xoá</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        
+        <!-- Pagination -->
+        <nav aria-label="Product pagination">
+            <ul class="pagination justify-content-center">
+                <li class="page-item @(!Model.HasPrevious ? "disabled" : "")">
+                    <a class="page-link" 
+                       asp-action="Index" 
+                       asp-route-pageNumber="@(Model.CurrentPage - 1)"
+                       asp-route-searchTerm="@ViewData["CurrentFilter"]">
+                        Trước
+                    </a>
+                </li>
+                
+                @for (var i = 1; i <= Model.TotalPages; i++)
+                {
+                    <li class="page-item @(i == Model.CurrentPage ? "active" : "")">
+                        <a class="page-link" 
+                           asp-action="Index" 
+                           asp-route-pageNumber="@i"
+                           asp-route-searchTerm="@ViewData["CurrentFilter"]">
+                            @i
+                        </a>
+                    </li>
+                }
+                
+                <li class="page-item @(!Model.HasNext ? "disabled" : "")">
+                    <a class="page-link" 
+                       asp-action="Index" 
+                       asp-route-pageNumber="@(Model.CurrentPage + 1)"
+                       asp-route-searchTerm="@ViewData["CurrentFilter"]">
+                        Sau
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    }
+</div>
