@@ -13,7 +13,7 @@
             <dd class="col-sm-9">@Html.DisplayFor(model => model.Name)</dd>
             
             <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Price)</dt>
-            <dd class="col-sm-9">$@Html.DisplayFor(model => model.Price)</dd>
+            <dd class="col-sm-9">@Html.DisplayFor(model => model.Price)</dd>
             
             <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Stock)</dt>
             <dd class="col-sm-9">@Html.DisplayFor(model => model.Stock)</dd>
@@ -23,7 +23,7 @@
         </dl>
     </div>
     <div>
-        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Sửa</a>
-        <a asp-action="Index" class="btn btn-secondary">Quay lại</a>
+        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-action btn-edit">Sửa</a>
+        <a asp-action="Index" class="btn btn-secondary">Trở về danh sách</a>
     </div>
 </div>

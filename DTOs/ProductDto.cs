@@ -13,7 +13,7 @@ public class ProductDto
 
     [Required(ErrorMessage = "Giá là bắt buộc")]
     [Range(0.01, double.MaxValue, ErrorMessage = "Giá phải lớn hơn 0")]
-    [Display(Name = "Giá (VNĐ$)")]
+    [Display(Name = "Giá (VNĐ)")]
     public decimal Price { get; set; }
 
     [Required(ErrorMessage = "Tồn kho là bắt buộc")]

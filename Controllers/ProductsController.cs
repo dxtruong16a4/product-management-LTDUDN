@@ -56,6 +56,7 @@ public class ProductsController : Controller
         if (ModelState.IsValid)
         {
             await _service.CreateAsync(productDto);
+            TempData["SuccessMessage"] = $"Product '{productDto.Name}' has been created successfully!";
             return RedirectToAction(nameof(Index));
         }
         return View(productDto);
@@ -90,6 +91,7 @@ public class ProductsController : Controller
         if (ModelState.IsValid)
         {
             await _service.UpdateAsync(productDto);
+            TempData["SuccessMessage"] = $"Product '{productDto.Name}' has been updated successfully!";
             return RedirectToAction(nameof(Index));
         }
         return View(productDto);
@@ -117,7 +119,12 @@ public class ProductsController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> DeleteConfirmed(int id)
     {
-        await _service.DeleteAsync(id);
+        var product = await _service.GetByIdAsync(id);
+        if (product != null)
+        {
+            await _service.DeleteAsync(id);
+            TempData["SuccessMessage"] = $"Product '{product.Name}' has been deleted successfully!";
+        }
         return RedirectToAction(nameof(Index));
     }
 }
