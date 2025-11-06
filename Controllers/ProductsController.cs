@@ -55,8 +55,8 @@ public class ProductsController : Controller
     {
         if (ModelState.IsValid)
         {
-            await _service.CreateAsync(productDto);
-            TempData["SuccessMessage"] = $"Product '{productDto.Name}' has been created successfully!";
+            var created = await _service.CreateAsync(productDto);
+            TempData["SuccessMessage"] = $"Product '{created.Name}' has been created successfully!";
             return RedirectToAction(nameof(Index));
         }
         return View(productDto);

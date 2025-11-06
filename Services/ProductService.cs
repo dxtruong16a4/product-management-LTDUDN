@@ -26,10 +26,12 @@ public class ProductService : IProductService
         return product != null ? ProductMapper.ToDto(product) : null;
     }
 
-    public async Task CreateAsync(ProductDto productDto)
+    public async Task<ProductDto> CreateAsync(ProductDto productDto)
     {
         var product = ProductMapper.ToEntity(productDto);
         await _repo.AddAsync(product);
+        // After saving, EF will populate product.Id — return created DTO
+        return ProductMapper.ToDto(product);
     }
 
     public async Task UpdateAsync(ProductDto productDto)

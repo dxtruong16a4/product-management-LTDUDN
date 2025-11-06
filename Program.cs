@@ -1,6 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using ProductManagement.Data;
 using ProductManagement.Repositories;
+using FluentValidation.AspNetCore;
+using FluentValidation;
 using ProductManagement.Repositories.Interfaces;
 using ProductManagement.Services;
 using ProductManagement.Services.Interfaces;
@@ -9,6 +11,12 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+// FluentValidation registration (modern API)
+builder.Services.AddFluentValidationAutoValidation();
+builder.Services.AddFluentValidationClientsideAdapters();
+// Register validators from this assembly
+builder.Services.AddValidatorsFromAssemblyContaining<Program>();
 
 // Register DbContext
 builder.Services.AddDbContext<AppDbContext>(
